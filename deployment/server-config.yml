@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: server-config
+data:
+  webserver.conf: "{\"Port\": 8080, \"DBAddress\": \"redis-service:6379\", \"DBpass\": \"\",\"DBuser\": \"root\"}"
+

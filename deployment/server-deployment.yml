@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: server
+  name: server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: server
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: server
+    spec:
+      containers:
+        - image: amirhosseinbarikloo/server:3.0
+          name: privatenote
+          volumeMounts:
+            - mountPath: /webserver.conf
+              subPath: webserver.conf
+              name: server-config
+              readOnly: true
+          resources:
+            requests:
+              cpu: 200m
+            limits:
+              cpu: 500m
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: REDIS_PASSWORD
+                  name: redis-secret
+      volumes:
+        - name: server-config
+          configMap:
+            name: server-config
+status: {}
